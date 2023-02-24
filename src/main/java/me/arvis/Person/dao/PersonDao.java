@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import me.arvis.Person.enums.Gender;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -20,15 +21,21 @@ public class PersonDao {
 
     private Gender gender;
 
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
-    PersonDao(){};
 
-    public PersonDao(String firstName,String lastName, String personalId, Date dateOfBirth){
+    PersonDao(){}
+
+    public PersonDao(String firstName,String lastName, String personalId, LocalDate dateOfBirth, Gender gender){
         this.firstName = firstName;
         this.lastName = lastName;
         this.personalId = personalId;
         this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
+    }
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
     }
 
     public Long getId() {
@@ -71,11 +78,4 @@ public class PersonDao {
         this.gender = gender;
     }
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
 }

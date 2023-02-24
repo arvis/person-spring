@@ -1,6 +1,7 @@
 package me.arvis.Person.config;
 
 import me.arvis.Person.dao.PersonDao;
+import me.arvis.Person.enums.Gender;
 import me.arvis.Person.repository.PersonRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Configuration
@@ -19,7 +21,8 @@ public class LoadDatabase {
 
         return args -> {
             log.info("Preloading " + repository.save(
-                    new PersonDao("John", "Doe", "123", new Date())));
+                    new PersonDao("John", "Doe", "123",
+                            LocalDate.of(2000,4,11), Gender.MALE)));
         };
     }
 
