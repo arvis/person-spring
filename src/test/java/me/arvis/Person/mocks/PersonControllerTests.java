@@ -56,15 +56,29 @@ public class PersonControllerTests {
         repository.save(person);
         mockMvc.perform(get("/"+person.getPersonalId()+"/"+ person.getDateOfBirth()))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(
-                        jsonPath("$.firstName").value(person.getFirstName())).andExpect(
-                        jsonPath("$.personalId").value(person.getPersonalId()));
+                        jsonPath("$[0].firstName").value(person.getFirstName())).andExpect(
+                        jsonPath("$[0].personalId").value(person.getPersonalId()));
     }
 
-    // TODO: randomize all inputs
     // TODO: non existing person
     // TODO: incorrect URL
     // TODO: bad request
+
+    @Test
+    public void CannotFindPerson() throws Exception {
+        PersonDao person = generatePersonDao();
+        repository.save(person);
+        mockMvc.perform(get("/1"+person.getPersonalId() +"/2000-01-01"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void IncorrectDate() throws Exception {
+        mockMvc.perform(get("/5555/55555"))
+                .andExpect(status().isBadRequest());
+    }
 
 
     private int generateRandomNumber(int min, int max){
@@ -72,9 +86,9 @@ public class PersonControllerTests {
     }
 
     private PersonDao generatePersonDao(){
-        return new PersonDao("aaa",
-                "bbbb",
-                "zssdfd",
+        return new PersonDao("aaa"+ generateRandomNumber(1,2000),
+                "bbbb"+ generateRandomNumber(1,2000),
+                "z"+ generateRandomNumber(1000,9999),
 
                 LocalDate.of(2000,4,11),
                 Gender.FEMALE);

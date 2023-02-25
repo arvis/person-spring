@@ -6,7 +6,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -25,11 +24,13 @@ public class PersonController {
     }
 
     @GetMapping("/{personId}/{localDate}")
-    public PersonDao getByIdAndDate(@PathVariable String personId,
+    public List<PersonDao> getByIdAndDate(@PathVariable String personId,
                              @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate localDate) {
-        //new Date(2000, 11, 21)
-        LocalDate dateTime = LocalDate.of(2000,4,11);
-        return repository.findByPersonalIdAndDateOfBirth(personId,localDate).get(0);
+        List<PersonDao> personsFound = repository.findByPersonalIdAndDateOfBirth(personId,localDate);
+        if (personsFound.size()==0){
+            throw new PersonNotFoundException("No person found with this personal Id and birth date");
+        }
+        return personsFound;
     }
 
 //    @PostMapping("/local-date")
