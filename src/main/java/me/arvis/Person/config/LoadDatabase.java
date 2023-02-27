@@ -22,7 +22,15 @@ public class LoadDatabase {
         return args -> {
             log.info("Preloading " + repository.save(
                     new PersonDao("John", "Doe", "123",
-                            LocalDate.of(2000,4,11), Gender.MALE)));
+                            LocalDate.of(2000,4,11), Gender.MALE))
+                    + repository.save(
+                    new PersonDao("Ieva", "Liepina", "555",
+                            LocalDate.of(1988,1,30), Gender.FEMALE))
+            );
+            log.info("Preloading " + repository.save(
+                    new PersonDao("Janis", "Berzins", "45678",
+                            LocalDate.of(1980,6,25), Gender.MALE)));
+
         };
     }
 

@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/")
+@CrossOrigin
 public class PersonController {
 
     private final PersonRepository repository;
@@ -32,11 +33,4 @@ public class PersonController {
         }
         return personsFound;
     }
-
-//    @PostMapping("/local-date")
-//    public void localDate(@RequestParam("localDate")
-//                          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate localDate) {
-//        // ...
-//    }
-
 }
